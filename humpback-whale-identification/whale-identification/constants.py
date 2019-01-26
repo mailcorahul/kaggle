@@ -1,0 +1,1 @@
+DATA_DIR="/home/raghul/dev/kaggle/datasets/humpback-whale-identification"
