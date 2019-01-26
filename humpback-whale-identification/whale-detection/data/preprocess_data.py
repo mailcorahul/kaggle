@@ -69,7 +69,39 @@ def read_data(path):
 	create_csv('val', val);
 
 
+def debug(path):
+
+	val = os.listdir('/opt/infilect/dev/datasets/object_detection/whale/val/JPEGImages');
+	with open(path) as f:
+		rows = f.read().split('\n');
+		rows = list(filter(None, rows));
+
+	_type = 'val';
+	f = open(os.path.join(_type + '.csv'), 'w');	
+	
+	for row in rows:
+		row = row.split(',');
+		img_nm = row[0];
+		if img_nm not in val:
+			continue;
+		poly = np.int32(row[1:]).reshape(-1, 2);
+		rect = cv2.minAreaRect(poly);
+		box = np.int0(cv2.boxPoints(rect));
+		minx = np.amin(poly[:,0]);
+		miny = np.amin(poly[:,1]);
+		maxx = np.amax(poly[:,0]);
+		maxy = np.amax(poly[:,1]);
+
+		img_path = os.path.join(DATA_DIR, _type, 'JPEGImages', img_nm);		
+		# path/to/image.jpg,x1,y1,x2,y2,class_name
+		f.write('{},{},{},{},{},whale\n'.format(img_path,str(minx),\
+			str(miny), str(maxx), str(maxy)));
+
+	f.close();
+
+
+
 if __name__ == '__main__':
 
-	read_data(os.path.join('../dataset/cropping.txt'));
+	read_data(os.path.join('/opt/infilect/dev/datasets/kaggle/whale-categorization-playground/cropping.txt'));
 
