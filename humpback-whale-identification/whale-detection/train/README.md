@@ -1,2 +1,2 @@
-Uses RetinaNet to localize whales in an image
+### Uses RetinaNet to localize whales in an image  
 Git link: https://github.com/fizyr/keras-retinanet
